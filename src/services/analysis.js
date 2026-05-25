@@ -14,3 +14,12 @@ export async function extractSkills(text) {
   const { data } = await api.post('/analysis/extract-skills', { text })
   return data
 }
+
+export async function improveResume({ resume_id, application_id, bullet_text }) {
+  const { data } = await api.post('/analysis/improve-resume', {
+    resume_id,
+    application_id,
+    bullet_text,
+  })
+  return data
+}

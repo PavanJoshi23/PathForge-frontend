@@ -19,6 +19,7 @@ import StatusBadge from '@/components/apps/StatusBadge'
 import ApplicationForm from '@/components/apps/ApplicationForm'
 import AnalysisPanel from '@/components/analysis/AnalysisPanel'
 import InterviewPrepPanel from '@/components/interview/InterviewPrepPanel'
+import ResumeImprovementPanel from '@/components/resume/ResumeImprovementPanel'
 import { APPLICATION_STATUSES } from '@/types/application'
 
 function Field({ label, children }) {
@@ -211,6 +212,20 @@ export default function ApplicationDetailPage() {
           />
         </CardContent>
       </Card>
+
+      {app.resume_id && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Resume Improvement</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResumeImprovementPanel
+              resumeId={app.resume_id}
+              applicationId={app.id}
+            />
+          </CardContent>
+        </Card>
+      )}
 
       <ApplicationForm
         open={editOpen}
