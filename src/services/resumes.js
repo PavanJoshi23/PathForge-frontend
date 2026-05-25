@@ -1,17 +1,17 @@
-import axios from 'axios'
+import api from './api'
 
 export async function fetchResumes() {
-  const { data } = await axios.get('/resumes')
+  const { data } = await api.get('/resumes')
   return data
 }
 
 export async function fetchResume(id) {
-  const { data } = await axios.get(`/resumes/${id}`)
+  const { data } = await api.get(`/resumes/${id}`)
   return data
 }
 
 export async function uploadResume(formData, onUploadProgress) {
-  const { data } = await axios.post('/resumes/upload', formData, {
+  const { data } = await api.post('/resumes/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress,
   })
@@ -19,5 +19,5 @@ export async function uploadResume(formData, onUploadProgress) {
 }
 
 export async function deleteResume(id) {
-  await axios.delete(`/resumes/${id}`)
+  await api.delete(`/resumes/${id}`)
 }
