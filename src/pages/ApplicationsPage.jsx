@@ -63,18 +63,18 @@ export default function ApplicationsPage() {
         </div>
       </div>
 
-      <div className="flex gap-3">
-        <div className="relative flex-1 max-w-sm">
+      <div className="flex flex-wrap gap-3">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search company, title…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-8"
+            className="pl-8 w-full"
           />
         </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="w-full sm:w-40">
             <SelectValue placeholder="All statuses" />
           </SelectTrigger>
           <SelectContent>
@@ -102,40 +102,74 @@ export default function ApplicationsPage() {
           </Button>
         </div>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Company</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Applied</TableHead>
-              <TableHead>Salary</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+        <>
+          {/* Desktop table — hidden on mobile */}
+          <div className="hidden md:block">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Company</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Applied</TableHead>
+                  <TableHead>Salary</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {applications.map((app) => (
+                  <TableRow
+                    key={app.id}
+                    className="cursor-pointer"
+                    onClick={() => handleRowClick(app.id)}
+                  >
+                    <TableCell className="font-medium">{app.company_name}</TableCell>
+                    <TableCell>{app.job_title}</TableCell>
+                    <TableCell>
+                      <StatusBadge status={app.status} />
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {app.application_date ?? '—'}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {app.salary_min || app.salary_max
+                        ? `${app.salary_min ?? '?'} – ${app.salary_max ?? '?'}`
+                        : '—'}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          {/* Mobile card list — hidden on desktop */}
+          <div className="space-y-3 md:hidden">
             {applications.map((app) => (
-              <TableRow
+              <div
                 key={app.id}
-                className="cursor-pointer"
+                data-testid="app-card"
+                role="button"
+                tabIndex={0}
                 onClick={() => handleRowClick(app.id)}
+                onKeyDown={(e) => e.key === 'Enter' && handleRowClick(app.id)}
+                className="flex cursor-pointer flex-col gap-1.5 rounded-lg border bg-card p-4 shadow-sm transition-colors hover:bg-accent"
               >
-                <TableCell className="font-medium">{app.company_name}</TableCell>
-                <TableCell>{app.job_title}</TableCell>
-                <TableCell>
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-semibold text-foreground">{app.company_name}</p>
+                    <p className="text-sm text-muted-foreground">{app.job_title}</p>
+                  </div>
                   <StatusBadge status={app.status} />
-                </TableCell>
-                <TableCell className="text-muted-foreground">
-                  {app.application_date ?? '—'}
-                </TableCell>
-                <TableCell className="text-muted-foreground">
-                  {app.salary_min || app.salary_max
-                    ? `${app.salary_min ?? '?'} – ${app.salary_max ?? '?'}`
-                    : '—'}
-                </TableCell>
-              </TableRow>
+                </div>
+                <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-xs text-muted-foreground">
+                  {app.application_date && <span>Applied {app.application_date}</span>}
+                  {(app.salary_min || app.salary_max) && (
+                    <span>${app.salary_min ?? '?'} – ${app.salary_max ?? '?'}</span>
+                  )}
+                </div>
+              </div>
             ))}
-          </TableBody>
-        </Table>
+          </div>
+        </>
       )}
 
       <ApplicationForm open={formOpen} onClose={() => setFormOpen(false)} />

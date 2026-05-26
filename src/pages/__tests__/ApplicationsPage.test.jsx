@@ -58,8 +58,9 @@ describe('ApplicationsPage', () => {
   it('shows loaded applications in the table', async () => {
     renderPage()
     await waitFor(() => {
-      expect(screen.getByText('Acme Corp')).toBeInTheDocument()
-      expect(screen.getByText('Beta Inc')).toBeInTheDocument()
+      // Each company appears in both desktop table and mobile card list
+      expect(screen.getAllByText('Acme Corp').length).toBeGreaterThan(0)
+      expect(screen.getAllByText('Beta Inc').length).toBeGreaterThan(0)
     })
   })
 

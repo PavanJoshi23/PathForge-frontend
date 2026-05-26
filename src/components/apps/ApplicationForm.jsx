@@ -122,12 +122,12 @@ export default function ApplicationForm({ open, onClose, application }) {
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-full max-w-2xl max-h-[90dvh] overflow-y-auto sm:mx-4">
         <DialogHeader>
           <DialogTitle>{isEdit ? 'Edit Application' : 'Add Application'}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <Label htmlFor="company_name">Company *</Label>
               <Input id="company_name" {...register('company_name')} />
@@ -144,7 +144,7 @@ export default function ApplicationForm({ open, onClose, application }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <Label>Status</Label>
               <Select value={statusValue} onValueChange={(v) => setValue('status', v)}>
@@ -166,7 +166,7 @@ export default function ApplicationForm({ open, onClose, application }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <Label htmlFor="application_date">Application Date</Label>
               <Input id="application_date" type="date" {...register('application_date')} />
@@ -177,7 +177,7 @@ export default function ApplicationForm({ open, onClose, application }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <Label htmlFor="salary_min">Salary Min</Label>
               <Input id="salary_min" type="number" min="0" {...register('salary_min')} />
