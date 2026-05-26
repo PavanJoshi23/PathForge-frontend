@@ -8,13 +8,14 @@ function renderWithRouter(ui, { initialEntries = ['/'] } = {}) {
 }
 
 describe('AppLayout', () => {
-  it('renders all 5 nav links', () => {
+  it('renders all 5 nav links (at least one each)', () => {
     renderWithRouter(<AppLayout />)
-    expect(screen.getByRole('link', { name: /applications/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /resumes/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /analysis/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /interview/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /dashboard/i })).toBeInTheDocument()
+    // Each nav item appears in both sidebar and mobile nav — use getAllByRole
+    expect(screen.getAllByRole('link', { name: /applications/i }).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByRole('link', { name: /resumes/i }).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByRole('link', { name: /analysis/i }).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByRole('link', { name: /interview/i }).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByRole('link', { name: /dashboard/i }).length).toBeGreaterThanOrEqual(1)
   })
 
   it('renders the PathForge brand name', () => {
@@ -24,7 +25,9 @@ describe('AppLayout', () => {
 
   it('highlights the active route', () => {
     renderWithRouter(<AppLayout />, { initialEntries: ['/applications'] })
-    const link = screen.getByRole('link', { name: /applications/i })
-    expect(link).toHaveAttribute('aria-current', 'page')
+    const links = screen.getAllByRole('link', { name: /applications/i })
+    // At least one link should have aria-current="page"
+    const active = links.find((l) => l.getAttribute('aria-current') === 'page')
+    expect(active).toBeTruthy()
   })
 })

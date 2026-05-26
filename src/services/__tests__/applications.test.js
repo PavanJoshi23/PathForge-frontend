@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import axios from 'axios'
 import {
   fetchApplications,
   fetchApplication,
@@ -8,7 +7,17 @@ import {
   deleteApplication,
 } from '../applications'
 
-vi.mock('axios')
+// Mock the api module (axios instance) rather than raw axios
+vi.mock('@/services/api', () => ({
+  default: {
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+  },
+}))
+
+import api from '@/services/api'
 
 const mockApp = {
   id: 1,
@@ -23,9 +32,9 @@ beforeEach(() => vi.clearAllMocks())
 
 describe('fetchApplications', () => {
   it('calls GET /applications with params', async () => {
-    axios.get.mockResolvedValue({ data: { items: [mockApp], total: 1 } })
+    api.get.mockResolvedValue({ data: { items: [mockApp], total: 1 } })
     const result = await fetchApplications({ search: 'acme', status: 'applied' })
-    expect(axios.get).toHaveBeenCalledWith('/applications', {
+    expect(api.get).toHaveBeenCalledWith('/applications', {
       params: { search: 'acme', status: 'applied' },
     })
     expect(result.items).toHaveLength(1)
@@ -35,9 +44,9 @@ describe('fetchApplications', () => {
 
 describe('fetchApplication', () => {
   it('calls GET /applications/:id', async () => {
-    axios.get.mockResolvedValue({ data: mockApp })
+    api.get.mockResolvedValue({ data: mockApp })
     const result = await fetchApplication(1)
-    expect(axios.get).toHaveBeenCalledWith('/applications/1')
+    expect(api.get).toHaveBeenCalledWith('/applications/1')
     expect(result.id).toBe(1)
   })
 })
@@ -45,9 +54,9 @@ describe('fetchApplication', () => {
 describe('createApplication', () => {
   it('calls POST /applications with payload', async () => {
     const payload = { company_name: 'Acme', job_title: 'Dev' }
-    axios.post.mockResolvedValue({ data: { ...mockApp, ...payload } })
+    api.post.mockResolvedValue({ data: { ...mockApp, ...payload } })
     const result = await createApplication(payload)
-    expect(axios.post).toHaveBeenCalledWith('/applications', payload)
+    expect(api.post).toHaveBeenCalledWith('/applications', payload)
     expect(result.company_name).toBe('Acme')
   })
 })
@@ -55,16 +64,16 @@ describe('createApplication', () => {
 describe('updateApplication', () => {
   it('calls PUT /applications/:id with payload', async () => {
     const payload = { status: 'interview' }
-    axios.put.mockResolvedValue({ data: { ...mockApp, ...payload } })
+    api.put.mockResolvedValue({ data: { ...mockApp, ...payload } })
     await updateApplication(1, payload)
-    expect(axios.put).toHaveBeenCalledWith('/applications/1', payload)
+    expect(api.put).toHaveBeenCalledWith('/applications/1', payload)
   })
 })
 
 describe('deleteApplication', () => {
   it('calls DELETE /applications/:id', async () => {
-    axios.delete.mockResolvedValue({ data: null })
+    api.delete.mockResolvedValue({ data: null })
     await deleteApplication(1)
-    expect(axios.delete).toHaveBeenCalledWith('/applications/1')
+    expect(api.delete).toHaveBeenCalledWith('/applications/1')
   })
 })
