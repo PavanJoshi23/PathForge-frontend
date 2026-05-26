@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, Search } from 'lucide-react'
+import { Plus, Search, Download } from 'lucide-react'
 import { useApplications } from '@/hooks/useApplications'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -35,12 +35,32 @@ export default function ApplicationsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-2xl font-bold">Applications</h1>
-        <Button onClick={() => setFormOpen(true)}>
-          <Plus className="h-4 w-4" />
-          Add Application
-        </Button>
+        <div className="flex gap-2">
+          <a
+            href="http://localhost:8000/api/applications/export?format=csv"
+            download="applications.csv"
+            className="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            aria-label="Export CSV"
+          >
+            <Download className="h-4 w-4" />
+            CSV
+          </a>
+          <a
+            href="http://localhost:8000/api/applications/export?format=json"
+            download="applications.json"
+            className="inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            aria-label="Export JSON"
+          >
+            <Download className="h-4 w-4" />
+            JSON
+          </a>
+          <Button onClick={() => setFormOpen(true)}>
+            <Plus className="h-4 w-4" />
+            Add Application
+          </Button>
+        </div>
       </div>
 
       <div className="flex gap-3">
