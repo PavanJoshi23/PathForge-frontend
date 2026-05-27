@@ -18,9 +18,9 @@ describe('AppLayout', () => {
     expect(screen.getAllByRole('link', { name: /dashboard/i }).length).toBeGreaterThanOrEqual(1)
   })
 
-  it('renders the PathForge brand name', () => {
+  it('renders the Vocra brand name', () => {
     renderWithRouter(<AppLayout />)
-    expect(screen.getByText(/pathforge/i)).toBeInTheDocument()
+    expect(screen.getByText(/vocra/i)).toBeInTheDocument()
   })
 
   it('highlights the active route', () => {

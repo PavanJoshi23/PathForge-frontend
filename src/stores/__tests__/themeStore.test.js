@@ -28,7 +28,7 @@ describe('themeStore', () => {
   it('setTheme persists to localStorage', async () => {
     const { useThemeStore } = await import('../themeStore')
     useThemeStore.getState().setTheme('dark')
-    expect(localStorage.getItem('pathforge-theme')).toBe('dark')
+    expect(localStorage.getItem('vocra-theme')).toBe('dark')
   })
 
   it('applies dark class to documentElement', async () => {

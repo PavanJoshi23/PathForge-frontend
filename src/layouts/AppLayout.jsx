@@ -19,7 +19,7 @@ export default function AppLayout() {
       {/* Sidebar — hidden on mobile, visible md+ */}
       <aside className="hidden md:flex w-56 flex-col border-r bg-card">
         <div className="flex h-14 items-center border-b px-4">
-          <span className="text-lg font-bold tracking-tight text-foreground">PathForge</span>
+          <span className="text-lg font-bold tracking-tight text-foreground">Vocra</span>
         </div>
         <nav className="flex-1 space-y-1 p-2">
           {navItems.map(({ to, label, icon: Icon }) => (

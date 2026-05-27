@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-const STORAGE_KEY = 'pathforge-theme'
+const STORAGE_KEY = 'vocra-theme'
 
 function getInitialTheme() {
   const stored = localStorage.getItem(STORAGE_KEY)
