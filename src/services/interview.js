@@ -6,6 +6,11 @@ export async function generateInterviewPrep({ application_id }) {
 }
 
 export async function fetchInterviewPrep(application_id) {
-  const { data } = await api.get(`/interview/${application_id}/prep`)
-  return data
+  try {
+    const { data } = await api.get(`/interview/${application_id}/prep`)
+    return data
+  } catch (err) {
+    if (err.response?.status === 404) return null
+    throw err
+  }
 }

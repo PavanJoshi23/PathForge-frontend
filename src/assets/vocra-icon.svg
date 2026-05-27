@@ -27,6 +27,6 @@
   <circle cx="26" cy="36" r="2" fill="white" fill-opacity="0.82"/>
   <circle cx="30" cy="36" r="2" fill="white" fill-opacity="0.82"/>
   <circle cx="43" cy="36" r="2" fill="white" fill-opacity="0.82"/>
-  <!-- Vertical line from inner nodes downward -->
+  <!-- Horizontal connector between inner nodes -->
   <line x1="28" y1="36" x2="28" y2="44" stroke="white" stroke-opacity="0.5" stroke-width="1.4" stroke-linecap="round"/>
 </svg>

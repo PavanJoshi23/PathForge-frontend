@@ -2,6 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { Briefcase, FileText, BarChart2, MessageSquare, LayoutDashboard, Moon, Sun } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useThemeStore } from '@/stores/themeStore'
+import vocraIcon from '@/assets/vocra-icon.svg'
 
 const navItems = [
   { to: '/applications', label: 'Applications', icon: Briefcase },
@@ -18,8 +19,9 @@ export default function AppLayout() {
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Sidebar — hidden on mobile, visible md+ */}
       <aside className="hidden md:flex w-56 flex-col border-r bg-card">
-        <div className="flex h-14 items-center border-b px-4">
-          <span className="text-lg font-bold tracking-tight text-foreground">Vocra</span>
+        <div className="flex h-14 items-center gap-2 border-b px-4">
+          <img src={vocraIcon} alt="Vocra icon" className="h-8 w-8" />
+          <span className="text-lg font-bold tracking-tight text-foreground">vocra</span>
         </div>
         <nav className="flex-1 space-y-1 p-2">
           {navItems.map(({ to, label, icon: Icon }) => (
